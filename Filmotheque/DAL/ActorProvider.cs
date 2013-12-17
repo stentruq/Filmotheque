@@ -21,5 +21,22 @@ namespace DAL
                 return context.Actors.ToList();
             }
         }
+
+        public void AddActors(List<EntityActor> actorsToAdd)
+        {
+            using (FilmothequeContext context = new FilmothequeContext())
+            {
+
+                foreach (var actorToAdd in actorsToAdd)
+                {
+                    if (context.Actors.Find(actorToAdd.ID) == null)
+                    {
+                        context.Actors.Add(actorToAdd);
+                    }
+                }
+            }
+        }
+
+
     }
 }

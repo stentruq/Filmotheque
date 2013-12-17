@@ -24,7 +24,8 @@ namespace DAL
 			{
 				// Save film.
 				TmdbMovie infosFilm = api.GetMovieInfo(i);
-                filmList.Add(new EntityFilm { title = infosFilm.title, synopsis = infosFilm.overview });
+                EntityFilm currentFilm = new EntityFilm { title = infosFilm.title, synopsis = infosFilm.overview };
+                
 				// Get all actors to the film.
 				TmdbMovieCast actorsCasting = api.GetMovieCast(i);
 				List<EntityActor> actorList = new List<EntityActor>();
@@ -38,7 +39,8 @@ namespace DAL
 					// Save actor.
                     actorList.Add(new EntityActor { name = actorName, biography = infosActor.ToString() });
 				}
-				// Actors list or list of actors list ?
+                currentFilm.AddActors(actorList);
+                filmList.Add(currentFilm);
 				actorList.ForEach(entity => context.Actors.Add(entity));
 			}
 			filmList.ForEach(entity => context.Films.Add(entity));
